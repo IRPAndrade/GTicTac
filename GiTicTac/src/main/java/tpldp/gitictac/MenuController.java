@@ -1,20 +1,13 @@
 package tpldp.gitictac;
 
+import javafx.application.Platform;
 import tpldp.gitictac.utils.SceneController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 
 import java.io.IOException;
 
 public class MenuController {
-    @FXML
-    private Label welcomeText;
-
-    @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
-    }
 
     @FXML
     public void onCreateServer(ActionEvent actionEvent) throws IOException {
@@ -22,7 +15,12 @@ public class MenuController {
     }
 
     @FXML
-    public void onConnectToGame(ActionEvent actionEvent) throws IOException {
+    public void onConnectServer(ActionEvent actionEvent) throws IOException {
         SceneController.showConnectLobby();
+    }
+
+    @FXML
+    public void onExit(ActionEvent actionEvent) throws IOException {
+        Platform.exit();
     }
 }

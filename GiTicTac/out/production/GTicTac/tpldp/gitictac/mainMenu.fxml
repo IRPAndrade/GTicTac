@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="418.0" prefWidth="594.0" style="-fx-background-color: FFF2D1;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="418.0" prefWidth="594.0" style="-fx-background-color: FFF2D1;" xmlns="http://javafx.com/javafx/22" fx:controller="tpldp.gitictac.MenuController" xmlns:fx="http://javafx.com/fxml/1" >
    <top>
       <Region prefHeight="40.0" style="-fx-background-color: CAFFA0; -fx-border-style: solid;" BorderPane.alignment="CENTER" />
    </top>
@@ -33,9 +32,11 @@
                   <HBox prefHeight="100.0" prefWidth="200.0" />
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <Button minHeight="50.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-radius: 500; -fx-background-color: CFFFC7; -fx-border-style: solid; -fx-border-radius: 500;" text="Jogar" />
+                        <Button minHeight="50.0" minWidth="100.0" mnemonicParsing="false" onAction="#onCreateServer" style="-fx-background-radius: 500; -fx-background-color: CFFFC7; -fx-border-style: solid; -fx-border-radius: 500;" text="Criar Servidor" />
                         <HBox minHeight="25.0" />
-                        <Button minHeight="50.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-radius: 500; -fx-background-color: CFFFC7; -fx-border-radius: 500; -fx-border-style: solid;" text="Sair" />
+                        <Button minHeight="50.0" minWidth="100.0" mnemonicParsing="false" onAction="#onConnectServer" style="-fx-background-radius: 500; -fx-background-color: CFFFC7; -fx-border-radius: 500; -fx-border-style: solid;" text="Jogar" />
+                        <HBox minHeight="25.0" />
+                        <Button minHeight="50.0" minWidth="100.0" mnemonicParsing="false" onAction="#onExit" style="-fx-background-radius: 500; -fx-background-color: CFFFC7; -fx-border-radius: 500; -fx-border-style: solid;" text="Sair" />
                      </children>
                   </VBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" />

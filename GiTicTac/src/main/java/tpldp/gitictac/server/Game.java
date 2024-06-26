@@ -1,5 +1,7 @@
 package tpldp.gitictac.server;
 
+import tpldp.gitictac.game.Move;
+
 import java.util.Arrays;
 
 public class Game {
@@ -48,13 +50,13 @@ public class Game {
 
     private void broadcastMove(Move move) {
         for (Player player : players) {
-            player.sendMove(move);
+            player.sendMessage(move);
         }
     }
 
     private void broadcastMessage(String message) {
         for (Player player : players) {
-            player.sendMove(new Move(-1, -1, message));
+            player.sendMessage(new Move(-1, -1, message));
         }
     }
 

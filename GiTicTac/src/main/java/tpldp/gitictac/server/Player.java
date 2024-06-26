@@ -1,5 +1,7 @@
 package tpldp.gitictac.server;
 
+import tpldp.gitictac.game.Move;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -39,7 +41,7 @@ public class Player implements Runnable, Serializable {
         }
     }
 
-    public void sendMove(Move move) {
+    public void sendMessage(Object move) {
         try {
             output.writeObject(move);
         } catch (IOException e) {

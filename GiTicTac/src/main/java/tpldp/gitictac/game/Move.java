@@ -1,4 +1,4 @@
-package tpldp.gitictac.server;
+package tpldp.gitictac.game;
 
 import java.io.Serializable;
 

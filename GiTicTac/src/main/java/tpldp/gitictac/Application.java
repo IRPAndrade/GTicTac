@@ -9,7 +9,7 @@ public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
         SceneController.stage = stage;
-        SceneController.menu();
+        SceneController.mainMenu();
     }
 
     public static void main(String[] args) {

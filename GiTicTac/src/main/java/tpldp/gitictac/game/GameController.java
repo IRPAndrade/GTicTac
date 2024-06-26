@@ -1,11 +1,15 @@
 package tpldp.gitictac.game;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import tpldp.gitictac.client.Client;
+import tpldp.gitictac.utils.SceneController;
+import tpldp.gitictac.utils.client.ClientUtils;
+import tpldp.gitictac.utils.client.GameUtils;
 
 import java.io.IOException;
 import java.net.URL;
@@ -15,77 +19,52 @@ public class GameController implements Initializable {
 
     //Tabuleiro
     @FXML private GridPane gridPane;
-    private Button[][] buttons = new Button[5][5];
+    private Button[][] buttons = new Button[GameUtils.boardSize][GameUtils.boardSize];
 
     //Jogador
-    private String currentPlayer = "X";
-    private Client client;
+    private String piece;
+    private Boolean play = false;
+    @FXML
+    private Button btn00;
 
-    @Override
+    public GameController(){
+        GameUtils.controller = this;
+    }
+
+    @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         // Inicializa o array de botões
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i = 0; i < GameUtils.boardSize; i++) {
+            for (int j = 0; j < GameUtils.boardSize; j++) {
                 String buttonId = "#btn" + i + j;
                 buttons[i][j] = (Button) gridPane.lookup(buttonId);
             }
         }
-
-        try {
-            client = new Client("localhost", 12345);
-            startClientListener();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void startClientListener() {
-        new Thread(() -> {
-            try {
-                while (true) {
-                    int[] move = client.receiveMove();
-                    int row = move[0];
-                    int col = move[1];
-                    Platform.runLater(() -> {
-                        buttons[row][col].setText(currentPlayer);
-                        togglePlayer();
-                    });
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }).start();
     }
 
     @FXML
     private void handleButtonClick(javafx.event.ActionEvent event) {
+        if(!play) return;
         Button clickedButton = (Button) event.getSource();
         if (clickedButton.getText().isEmpty()) {
-            clickedButton.setText(currentPlayer);
+            //clickedButton.setText(piece);
             int row = GridPane.getRowIndex(clickedButton);
             int col = GridPane.getColumnIndex(clickedButton);
-            if (checkWin(row, col)) {
-                // Handle win
-                System.out.println("Player " + currentPlayer + " wins!");
-            } else {
-                togglePlayer();
-                try {
-                    client.sendMove(row, col);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            ClientUtils.sendMove(new Move(row, col, piece));
         }
     }
 
-    private void togglePlayer() {
-        currentPlayer = currentPlayer.equals("X") ? "O" : "X";
+    public void executeMove (Move move){
+        Button btn = buttons[move.getRow()][move.getCol()];
+
+        if (btn.getText().isEmpty()){
+            btn.setText(move.getPlayer());
+        }
     }
 
     private boolean checkWin(int row, int col) {
-        String currentPlayerSymbol = currentPlayer;
+        String currentPlayerSymbol = piece;
 
         //Verificação na horizontal (esquerda e direita)
         if (countConsecutive(row, col, 0, 1) + countConsecutive(row, col, 0, -1) >= 4) {
@@ -112,7 +91,7 @@ public class GameController implements Initializable {
 
     private int countConsecutive(int row, int col, int rowIncrement, int colIncrement) {
         int count = 0;
-        String symbol = currentPlayer;
+        String symbol = piece;
         int newRow = row + rowIncrement;
         int newCol = col + colIncrement;
 
@@ -127,5 +106,13 @@ public class GameController implements Initializable {
 
     private boolean isValidPosition(int row, int col) {
         return row >= 0 && row < 5 && col >= 0 && col < 5;
+    }
+
+    public void setPiece(String piece) {
+        this.piece = piece;
+    }
+
+    public void setPlay(Boolean play) {
+        this.play = play;
     }
 }
