@@ -1,5 +1,6 @@
 package tpldp.gitictac.server;
 
+import tpldp.gitictac.utils.client.GameUtils;
 import tpldp.gitictac.utils.server.ServerUtils;
 
 import java.io.IOException;
@@ -24,7 +25,7 @@ public class Server {
     public Server(int boardSize) {
         this.port = 1234;
         this.ip = getIp();
-        this.boardSize = boardSize;
+        this.boardSize = GameUtils.boardSize;
 
         ServerUtils.setInfo(this.ip, this.port);
 

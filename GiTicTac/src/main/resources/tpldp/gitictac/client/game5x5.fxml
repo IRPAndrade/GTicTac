@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="418.0" prefWidth="594.0" style="-fx-background-color: FFF2D1;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tpldp.gitictac.client.GameController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="418.0" prefWidth="594.0" style="-fx-background-color: FFF2D1;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tpldp.gitictac.game.GameController">
    <left>
       <VBox minWidth="50.0" prefWidth="25.0" BorderPane.alignment="CENTER" />
    </left>
@@ -71,7 +71,7 @@
    <top>
       <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: CAFFA0;" BorderPane.alignment="CENTER">
          <children>
-            <Button alignment="TOP_CENTER" mnemonicParsing="false" onAction="#goBack" style="-fx-background-radius: 500; -fx-border-radius: 500; -fx-border-style: solid; -fx-background-color: #B5FFAE;" text="Voltar" textAlignment="CENTER" />
+            <Button alignment="TOP_CENTER" mnemonicParsing="false" style="-fx-background-radius: 500; -fx-border-radius: 500; -fx-border-style: solid; -fx-background-color: #B5FFAE;" text="Voltar" textAlignment="CENTER" />
          </children>
       </HBox>
    </top>
