@@ -21,7 +21,7 @@ public class Move implements Serializable {
         return col;
     }
 
-    public String getPlayer() {
+    public String getMessage() {
         return player;
     }
 }

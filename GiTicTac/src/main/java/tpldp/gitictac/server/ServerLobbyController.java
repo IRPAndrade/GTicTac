@@ -2,14 +2,14 @@ package tpldp.gitictac.server;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import tpldp.gitictac.utils.SceneController;
 import tpldp.gitictac.utils.server.ServerUtils;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 
 import java.io.IOException;
 import java.net.URL;
@@ -47,7 +47,8 @@ public class ServerLobbyController implements Initializable {
         chooseBtn.setDisable(true);
         int boardSize = sizeComboBox.getValue().equals("5x5") ? 5 : 10;
 
-        this.server = new Server(boardSize);
+        ServerUtils.boardSize = boardSize;
+        this.server = new Server();
     }
 
     public void setInfo(String ip, int port){

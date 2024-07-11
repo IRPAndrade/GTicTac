@@ -1,8 +1,11 @@
 package tpldp.gitictac.game;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import tpldp.gitictac.utils.client.ClientUtils;
 import tpldp.gitictac.utils.client.GameUtils;
@@ -12,7 +15,7 @@ import java.util.ResourceBundle;
 
 public class GameController implements Initializable {
 
-    private Button[][] buttons = new Button[GameUtils.boardSize][GameUtils.boardSize];
+    /*private Button[][] buttons = new Button[GameUtils.boardSize][GameUtils.boardSize];*/
 
     //Jogador
     private String piece;
@@ -20,139 +23,70 @@ public class GameController implements Initializable {
     @FXML
     private GridPane gridPane;
     @FXML
-    private Button btn00;
+    private Label currentPlayer;
     @FXML
-    private Button btn21;
+    private Label myPiece;
     @FXML
-    private Button btn20;
-    @FXML
-    private Button btn24;
-    @FXML
-    private Button btn23;
-    @FXML
-    private Button btn22;
-    @FXML
-    private Button btn32;
-    @FXML
-    private Button btn31;
-    @FXML
-    private Button btn30;
-    @FXML
-    private Button btn34;
-    @FXML
-    private Button btn33;
-    @FXML
-    private Button btn43;
-    @FXML
-    private Button btn42;
-    @FXML
-    private Button btn41;
-    @FXML
-    private Button btn40;
-    @FXML
-    private Button btn03;
-    @FXML
-    private Button btn02;
-    @FXML
-    private Button btn01;
-    @FXML
-    private Button btn44;
-    @FXML
-    private Button btn10;
-    @FXML
-    private Button btn14;
-    @FXML
-    private Button btn13;
-    @FXML
-    private Button btn12;
-    @FXML
-    private Button btn11;
-    @FXML
-    private Button btn04;
+    private Label victoryLabel;
 
     public GameController(){
         GameUtils.controller = this;
     }
 
-    @Deprecated
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        // Inicializa o array de botões
-        for (int i = 0; i < GameUtils.boardSize; i++) {
-            for (int j = 0; j < GameUtils.boardSize; j++) {
-                String buttonId = "#btn" + i + j;
-                buttons[i][j] = (Button) gridPane.lookup(buttonId);
-            }
+        currentPlayer.setText("X");
+        for (var node : gridPane.getChildren()) {
+            node.setOnMouseClicked(this::handleMouseClick);
         }
     }
 
-    @Deprecated
-    private void handleButtonClick(javafx.event.ActionEvent event) {
-        if(!play) return;
-        Button clickedButton = (Button) event.getSource();
-        if (clickedButton.getText().isEmpty()) {
-            //clickedButton.setText(piece);
-            int row = GridPane.getRowIndex(clickedButton);
-            int col = GridPane.getColumnIndex(clickedButton);
-            ClientUtils.sendMove(new Move(row, col, piece));
-        }
+    private void handleMouseClick(MouseEvent event) {
+        var node = (Button) event.getSource();
+        Integer row = GridPane.getRowIndex(node);
+        Integer col = GridPane.getColumnIndex(node);
+        System.out.println("Clicked cell at: Row " + row + ", Column " + col);
+        ClientUtils.sendMove(new Move(row, col, piece));
+        System.out.println("Send Move");
     }
 
     public void executeMove (Move move){
-        Button btn = buttons[move.getRow()][move.getCol()];
+        Platform.runLater(()->{
 
-        if (btn.getText().isEmpty()){
-            btn.setText(move.getPlayer());
-        }
-    }
+            if(move.getCol() < 0 && move.getRow() < 0){
+                for(var node : gridPane.getChildren()){
+                    Button btn = (Button) node;
+                    btn.setText("");
+                    victoryLabel.setText(move.getMessage());
+                }
+                return;
+            }
 
-    private boolean checkWin(int row, int col) {
-        String currentPlayerSymbol = piece;
+            victoryLabel.setText("");
 
-        //Verificação na horizontal (esquerda e direita)
-        if (countConsecutive(row, col, 0, 1) + countConsecutive(row, col, 0, -1) >= 4) {
-            return true;
-        }
-
-        //Verificação na vertical (cima e baixo)
-        if (countConsecutive(row, col, 1, 0) + countConsecutive(row, col, -1, 0) >= 4) {
-            return true;
-        }
-
-        //Verificação na diagonal (superior esquerdo para inferior direito)
-        if (countConsecutive(row, col, 1, 1) + countConsecutive(row, col, -1, -1) >= 4) {
-            return true;
-        }
-
-        //Verificação na diagonal (superior direito para inferior esquerdo)
-        if (countConsecutive(row, col, 1, -1) + countConsecutive(row, col, -1, 1) >= 4) {
-            return true;
-        }
-
-        return false;
-    }
-
-    private int countConsecutive(int row, int col, int rowIncrement, int colIncrement) {
-        int count = 0;
-        String symbol = piece;
-        int newRow = row + rowIncrement;
-        int newCol = col + colIncrement;
-
-        while (isValidPosition(newRow, newCol) && buttons[newRow][newCol].getText().equals(symbol)) {
-            count++;
-            newRow += rowIncrement;
-            newCol += colIncrement;
-        }
-
-        return count;
-    }
-
-    private boolean isValidPosition(int row, int col) {
-        return row >= 0 && row < 5 && col >= 0 && col < 5;
+            for (var node : gridPane.getChildren()){
+                if(GridPane.getRowIndex(node) == move.getRow() && GridPane.getColumnIndex(node) == move.getCol()){
+                    Button btn = (Button) node;
+                    btn.setText(move.getMessage());
+                    if(move.getMessage().equals("X")){
+                        currentPlayer.setText("O");
+                    } else{
+                        currentPlayer.setText("X");
+                    }
+                }
+            }
+            System.out.println("move executed");
+        });
     }
 
     public void setPiece(String piece) {
+
+        Platform.runLater(()->{
+            myPiece.setText(piece);
+        });
+
         this.piece = piece;
+        System.out.println(piece);
     }
 
     public void setPlay(Boolean play) {

@@ -18,16 +18,11 @@ public class ConnectToGameController
     private TextField ipText;
 
     @FXML
-    public void initialize() {
-
-    }
-
-    @FXML
     public void connect(ActionEvent actionEvent) throws IOException {
         ClientUtils.client = new Client(ipText.getText(), Integer.parseInt(portText.getText()));
         ClientUtils.startClientListener();
         try{
-            TimeUnit.MILLISECONDS.sleep(5);
+            TimeUnit.MILLISECONDS.sleep(30);
         }catch (InterruptedException e){
             throw new RuntimeException(e);
         }

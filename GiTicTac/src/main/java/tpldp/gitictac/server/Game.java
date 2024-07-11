@@ -1,13 +1,14 @@
 package tpldp.gitictac.server;
 
 import tpldp.gitictac.game.Move;
+import tpldp.gitictac.utils.server.ServerUtils;
 
 import java.util.Arrays;
 
 public class Game {
-    private String[][] board = new String[5][5];
+    private String[][] board = new String[ServerUtils.boardSize][ServerUtils.boardSize];
     private Player[] players = new Player[2];
-    private int currentPlayerIndex = 0;
+    private int currentPlayerIndex;
 
     public Game() {
         for (String[] row : board) {
@@ -19,6 +20,7 @@ public class Game {
         for (int i = 0; i < players.length; i++) {
             if (players[i] == null) {
                 players[i] = player;
+
                 break;
             }
         }
@@ -37,15 +39,40 @@ public class Game {
         int col = move.getCol();
 
         if (board[row][col].isEmpty()) {
-            board[row][col] = move.getPlayer();
+            board[row][col] = move.getMessage();
             broadcastMove(move);
+            System.out.println("Broadcast Move");
 
-            if (checkWin(row, col, move.getPlayer())) {
-                broadcastMessage("Player " + move.getPlayer() + " wins!");
+            if(checkDraw()){
+                broadcastMessage("Empate");
+                System.out.println("Draw");
+                resetGame();
+            } else if (checkWin(row, col, move.getMessage())) {
+                broadcastMessage("Jogador " + move.getMessage() + " venceu!");
+                System.out.println("Player " + move.getMessage() + " wins!");
+                resetGame();
             } else {
                 currentPlayerIndex = (currentPlayerIndex + 1) % 2;
             }
         }
+    }
+
+    private boolean checkDraw() {
+        for (String[] row : board) {
+            for (String s : row) {
+                if(s.equals("")) {
+                return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private void resetGame() {
+            for (String[] row : board) {
+                Arrays.fill(row, "");
+            }
+        currentPlayerIndex = (currentPlayerIndex + 1) % 2;
     }
 
     private void broadcastMove(Move move) {
@@ -62,10 +89,10 @@ public class Game {
 
     private boolean checkWin(int row, int col, String player) {
         //Verificar todas as direções para uma vitória
-        return countConsecutive(row, col, 0, 1, player) + countConsecutive(row, col, 0, -1, player) + 1 >= 5 ||
-                countConsecutive(row, col, 1, 0, player) + countConsecutive(row, col, -1, 0, player) + 1 >= 5 ||
-                countConsecutive(row, col, 1, 1, player) + countConsecutive(row, col, -1, -1, player) + 1 >= 5 ||
-                countConsecutive(row, col, 1, -1, player) + countConsecutive(row, col, -1, 1, player) + 1 >= 5;
+        return countConsecutive(row, col, 0, 1, player) + countConsecutive(row, col, 0, -1, player) + 1 >= 4 ||
+                countConsecutive(row, col, 1, 0, player) + countConsecutive(row, col, -1, 0, player) + 1 >= 4 ||
+                countConsecutive(row, col, 1, 1, player) + countConsecutive(row, col, -1, -1, player) + 1 >= 4 ||
+                countConsecutive(row, col, 1, -1, player) + countConsecutive(row, col, -1, 1, player) + 1 >= 4;
     }
 
     private int countConsecutive(int row, int col, int rowIncrement, int colIncrement, String player) {
@@ -84,6 +111,10 @@ public class Game {
 
     private boolean isValidPosition(int row, int col) {
         return row >= 0 && row < 5 && col >= 0 && col < 5;
+    }
+
+    public void setCurrentPlayerIndex(int currentPlayerIndex) {
+        this.currentPlayerIndex = currentPlayerIndex;
     }
 }
 

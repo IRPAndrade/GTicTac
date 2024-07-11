@@ -1,6 +1,5 @@
 package tpldp.gitictac.server;
 
-import tpldp.gitictac.utils.client.GameUtils;
 import tpldp.gitictac.utils.server.ServerUtils;
 
 import java.io.IOException;
@@ -22,10 +21,10 @@ public class Server {
 
     Executor executor = Executors.newSingleThreadExecutor();
 
-    public Server(int boardSize) {
+    public Server() {
         this.port = 1234;
         this.ip = getIp();
-        this.boardSize = GameUtils.boardSize;
+        this.boardSize = ServerUtils.boardSize;
 
         ServerUtils.setInfo(this.ip, this.port);
 
@@ -33,15 +32,17 @@ public class Server {
     }
 
     private void startServer() {
-        Game game = new Game();
+        game = new Game();
         int totalPlayers = 0;
         try {
             serverSocket = new ServerSocket(this.port);
+            System.out.println("Server Accept Connections");
+
             while(totalPlayers < 2){
-                System.out.println("Server Accept Connections");
                 Socket socket = serverSocket.accept();
                 Player player = new Player(socket, game);
                 game.addPlayer(player);
+                player.sendMessage(ServerUtils.boardSize);
                 System.out.println("new player");
 
                 Thread thread = new Thread(player);
@@ -59,6 +60,7 @@ public class Server {
         for(Player player : game.getPlayers()){
             player.sendMessage(true);
         }
+        System.out.println("Game started");
     }
 
     private void randomOrder() {
@@ -67,10 +69,12 @@ public class Server {
         for(int i = 0; i < 2; i++){
             if((result - 1) == i){
                 game.getPlayers()[i].sendMessage("X");
+                game.setCurrentPlayerIndex(i);
             } else{
                 game.getPlayers()[i].sendMessage("O");
             }
         }
+        System.out.println("Order setted");
     }
 
     private String getIp() {

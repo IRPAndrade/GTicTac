@@ -10,12 +10,13 @@ public final class GameUtils {
     public static int boardSize;
 
     public static void executeMove(Object object){
+
         controller.executeMove((Move) object);
     }
 
     public static void setPlayer(String piece){
         try{
-            TimeUnit.MILLISECONDS.sleep(5);
+            TimeUnit.MILLISECONDS.sleep(50);
         } catch (InterruptedException e){
             throw new RuntimeException(e);
         }
