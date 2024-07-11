@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.collections.FXCollections?>
+<?import javafx.collections.ObservableList?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import java.lang.String?>
+<VBox alignment="CENTER" prefHeight="877.0" prefWidth="1777.0" spacing="20.0" style="-fx-background-color: #FFF2D1;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tpldp.gitictac.HelloController">
+    <fx:define>
+        <ObservableList fx:id="sizeOptions">
+            <String fx:value="5x5" />
+            <String fx:value="10x10" />
+        </ObservableList>
+        <ObservableList fx:id="hostClientOptions">
+            <String fx:value="host" />
+            <String fx:value="client" />
+        </ObservableList>
+    </fx:define>
+
+
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+    <BorderPane prefHeight="816.0" prefWidth="2532.0">
+        <top>
+            <HBox prefHeight="40.0" style="-fx-background-color: #CAFFA0;" BorderPane.alignment="CENTER" />
+        </top>
+        <center>
+            <HBox>
+                <!-- Coluna com cor de fundo -->
+                <VBox prefWidth="100.0" style="-fx-background-color: #FFF2D1;" />
+
+                <!-- Painel cinza -->
+                <VBox alignment="TOP_CENTER" spacing="20.0" style="-fx-background-color: #B0B0B0;" HBox.hgrow="ALWAYS" padding="20.0">
+                    <!-- Botão verde com seta ou texto "back" -->
+                    <Button text="← Back" style="-fx-background-color: #CAFFA0; -fx-text-fill: white;" />
+
+                    <!-- Tamanho -->
+                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <Label text="Tamanho:" />
+                        <ComboBox fx:id="sizeComboBox" items="${sizeOptions}" />
+                    </HBox>
+
+                    <!-- Host/client -->
+                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <Label text="Host/client:" />
+                        <ComboBox fx:id="hostClientComboBox" items="${hostClientOptions}" />
+                    </HBox>
+
+                    <!-- IP -->
+                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <Label text="IP:" />
+                        <TextField fx:id="ipTextField" />
+                    </HBox>
+
+                    <!-- Botão "play" -->
+                    <Button text="Play" style="-fx-background-color: #CAFFA0; -fx-text-fill: white;" />
+                </VBox>
+            </HBox>
+        </center>
+        <bottom>
+            <HBox alignment="BOTTOM_CENTER" prefHeight="40.0" style="-fx-background-color: #CAFFA0;" BorderPane.alignment="CENTER" />
+        </bottom>
+    </BorderPane>
+</VBox>
