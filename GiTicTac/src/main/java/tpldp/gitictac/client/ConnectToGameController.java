@@ -10,6 +10,9 @@ import tpldp.gitictac.utils.client.GameUtils;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Classe responsável pelo controlo da "Scene" de conexção ao jogo.
+ */
 public class ConnectToGameController
 {
     @FXML
@@ -17,6 +20,11 @@ public class ConnectToGameController
     @FXML
     private TextField ipText;
 
+    /**
+     * Inicia a Thread do "Client" e desenha o tabuliero consoante o tamanho definido.
+     * @param actionEvent
+     * @throws IOException
+     */
     @FXML
     public void connect(ActionEvent actionEvent) throws IOException {
         ClientUtils.client = new Client(ipText.getText(), Integer.parseInt(portText.getText()));
@@ -33,6 +41,11 @@ public class ConnectToGameController
         }
     }
 
+    /**
+     * Retrocede para a "Scene" do menu principal.
+     * @param actionEvent
+     * @throws IOException
+     */
     @FXML
     public void goBack(ActionEvent actionEvent) throws IOException {
         SceneController.mainMenu();

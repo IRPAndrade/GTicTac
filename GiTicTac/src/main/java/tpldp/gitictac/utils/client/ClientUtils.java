@@ -5,9 +5,15 @@ import tpldp.gitictac.game.Move;
 
 import java.io.IOException;
 
+/**
+ * Classe de utilidade para a comunicação entre diferentes classes do projeto.
+ */
 public final class ClientUtils {
     public static Client client;
 
+    /**
+     * Inicia um "Listener" que fica á espera de mensagens e dependendo to tipo da mensagem dá a tratamento necessário.
+     */
     public static void startClientListener(){
         new Thread(() -> {
             try {
@@ -29,6 +35,10 @@ public final class ClientUtils {
         }).start();
     }
 
+    /**
+     * Envia um movimento para o cliente.
+     * @param move
+     */
     public static void sendMove(Move move){
         try{
             client.sendMove(move);

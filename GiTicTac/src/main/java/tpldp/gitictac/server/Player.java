@@ -8,6 +8,9 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
 
+/**
+ * Responsável pela comunicação entre o servidor e o cliente.
+ */
 public class Player implements Runnable, Serializable {
     private Socket socket;
     private final transient ObjectInputStream input;
@@ -26,6 +29,9 @@ public class Player implements Runnable, Serializable {
         }
     }
 
+    /**
+     * Recebe e processa o movimento do lado do servidor.
+     */
     @Override
     public void run() {
         Object object;
@@ -41,6 +47,10 @@ public class Player implements Runnable, Serializable {
         }
     }
 
+    /**
+     * Evia uma mensagem ou movimento para o cliente.
+     * @param move
+     */
     public void sendMessage(Object move) {
         try {
             output.writeObject(move);

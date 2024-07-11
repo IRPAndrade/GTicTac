@@ -13,6 +13,9 @@ import tpldp.gitictac.utils.client.GameUtils;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Classe responsável pelo controlo da "Scene" do tabuleiro do jogo.
+ */
 public class GameController implements Initializable {
 
     /*private Button[][] buttons = new Button[GameUtils.boardSize][GameUtils.boardSize];*/
@@ -33,6 +36,11 @@ public class GameController implements Initializable {
         GameUtils.controller = this;
     }
 
+    /**
+     * Inicializa o "gridPane" e atribui um listener a cada célula.
+     * @param url
+     * @param resourceBundle
+     */
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         currentPlayer.setText("X");
@@ -41,6 +49,10 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Envia para o "Client" uma jogada.
+     * @param event
+     */
     private void handleMouseClick(MouseEvent event) {
         var node = (Button) event.getSource();
         Integer row = GridPane.getRowIndex(node);
@@ -50,6 +62,11 @@ public class GameController implements Initializable {
         System.out.println("Send Move");
     }
 
+    /**
+     * Executa um movimento, verificando as condições de empate ou vitória, mudando o texto dos labels necessários
+     * e do botão onde a jogada foi feita.
+     * @param move
+     */
     public void executeMove (Move move){
         Platform.runLater(()->{
 
@@ -79,6 +96,10 @@ public class GameController implements Initializable {
         });
     }
 
+    /**
+     * Atribui uma peça ao "Client", e escreve no label necessário.
+     * @param piece
+     */
     public void setPiece(String piece) {
 
         Platform.runLater(()->{
@@ -89,6 +110,10 @@ public class GameController implements Initializable {
         System.out.println(piece);
     }
 
+    /**
+     * Permite que se comece a jogar.
+     * @param play
+     */
     public void setPlay(Boolean play) {
         this.play = play;
     }

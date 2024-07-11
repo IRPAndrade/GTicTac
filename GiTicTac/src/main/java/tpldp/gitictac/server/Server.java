@@ -11,6 +11,9 @@ import java.util.Random;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+/**
+ * Inicia o servidor
+ */
 public class Server {
     private int port;
     private String ip;
@@ -31,6 +34,9 @@ public class Server {
         executor.execute(this::startServer);
     }
 
+    /**
+     * Inicia o servidor, cria "Threads" para os jogadores e controla o número de jogadores conectados.
+     */
     private void startServer() {
         game = new Game();
         int totalPlayers = 0;
@@ -56,6 +62,9 @@ public class Server {
         startGame();
     }
 
+    /**
+     * Envia a permissão para o inicio do jogo para os jogadores.
+     */
     private void startGame() {
         for(Player player : game.getPlayers()){
             player.sendMessage(true);
@@ -63,6 +72,9 @@ public class Server {
         System.out.println("Game started");
     }
 
+    /**
+     * Atribui uma peça a cada jogador de maneira aleatória.
+     */
     private void randomOrder() {
         Random random = new Random();
         int result = random.nextInt(2)+1;
@@ -77,6 +89,10 @@ public class Server {
         System.out.println("Order setted");
     }
 
+    /**
+     * Retorna o endereço IP do servidor.
+     * @return
+     */
     private String getIp() {
         try {
             return InetAddress.getLocalHost().getHostAddress();
